@@ -251,15 +251,31 @@
                 const response = await fetch(API_URL);
                 const repos = await response.json();
                 
+                // Filter out unwanted repositories
+                const filteredRepos = repos.filter(repo => {
+                    // Skip forked repositories
+                    if (repo.fork) return false;
+                    
+                    // Skip specific repositories
+                    const skipRepos = ['escapeesctr', 'my-portfolio'];
+                    if (skipRepos.includes(repo.name)) return false;
+                    
+                    // Skip if description contains "portfolio" or "readme"
+                    const desc = (repo.description || '').toLowerCase();
+                    if (desc.includes('portfolio') || desc.includes('readme')) return false;
+                    
+                    return true;
+                });
+                
                 // Sort by update date (newest first)
-                repos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                filteredRepos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
                 
-                // Update statistics
-                projectCount.textContent = repos.length;
-                repoCount.textContent = repos.length;
+                // Update statistics (use filtered count)
+                projectCount.textContent = filteredRepos.length;
+                repoCount.textContent = filteredRepos.length;
                 
-                const stars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
-                const forks = repos.reduce((sum, repo) => sum + repo.forks_count, 0);
+                const stars = filteredRepos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+                const forks = filteredRepos.reduce((sum, repo) => sum + repo.forks_count, 0);
                 
                 totalStars.textContent = stars;
                 totalForks.textContent = forks;
@@ -268,11 +284,20 @@
                 projectsContainer.innerHTML = '';
                 
                 // Add project cards
-                repos.forEach(repo => {
-                    if (!repo.fork) { // Skip forked repositories
-                        projectsContainer.innerHTML += createProjectCard(repo);
-                    }
+                filteredRepos.forEach(repo => {
+                    projectsContainer.innerHTML += createProjectCard(repo);
                 });
+                
+                // If no projects found
+                if (filteredRepos.length === 0) {
+                    projectsContainer.innerHTML = `
+                        <div class="project-card">
+                            <h3>No Projects Found</h3>
+                            <p>No C++ projects found in your GitHub repositories.</p>
+                            <a href="https://github.com/escapeesctr" target="_blank">Visit GitHub →</a>
+                        </div>
+                    `;
+                }
                 
             } catch (error) {
                 console.error('Error loading projects:', error);

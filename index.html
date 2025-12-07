@@ -1,296 +1,290 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escapeesctr - C++ Game Developer</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>3D Artist & C++ Developer Portfolio</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: white;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; background: #0f0f23; color: #ccc; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        header { 
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); 
+            color: white; 
+            padding: 80px 0; 
             text-align: center;
-            padding: 60px 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(10px);
+            border-bottom: 3px solid #00adb5;
         }
-
-        h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #00dbde, #fc00ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        header h1 { font-size: 3rem; margin-bottom: 15px; background: linear-gradient(90deg, #00adb5, #ff2e63); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 10px; }
+        
+        .stats { display: flex; justify-content: center; gap: 30px; margin: 30px 0; flex-wrap: wrap; }
+        .stat-box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; min-width: 150px; text-align: center; border: 1px solid #00adb5; }
+        .stat-number { font-size: 2.5rem; font-weight: bold; color: #00adb5; }
+        .stat-label { font-size: 0.9rem; opacity: 0.8; }
+        
+        .projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; margin: 40px 0; }
+        
+        .project-card { 
+            background: rgba(255,255,255,0.05); 
+            border-radius: 15px; 
+            padding: 25px; 
+            border: 1px solid rgba(0, 173, 181, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-
-        .tagline {
-            font-size: 1.3rem;
-            color: #aaa;
-            margin-bottom: 30px;
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 173, 181, 0.1), transparent);
+            transition: left 0.5s;
         }
-
-        .badge {
-            display: inline-block;
-            background: rgba(0, 219, 222, 0.2);
-            color: #00dbde;
-            padding: 8px 20px;
-            border-radius: 25px;
+        .project-card:hover::before { left: 100%; }
+        .project-card:hover { 
+            transform: translateY(-10px); 
+            border-color: #00adb5;
+            box-shadow: 0 10px 30px rgba(0, 173, 181, 0.2);
+        }
+        .project-card h3 { color: #00adb5; margin-bottom: 15px; font-size: 1.4rem; }
+        .project-card p { margin-bottom: 15px; color: #aaa; }
+        .project-card .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; }
+        .project-card .tag { 
+            background: rgba(0, 173, 181, 0.2); 
+            color: #00adb5; 
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            font-size: 0.8rem; 
+            border: 1px solid rgba(0, 173, 181, 0.3);
+        }
+        .project-card a { 
+            display: inline-block; 
+            color: #ff2e63; 
+            text-decoration: none; 
             font-weight: bold;
-            margin: 0 10px 15px;
-            border: 1px solid rgba(0, 219, 222, 0.5);
+            margin-top: 10px;
+            transition: color 0.3s;
         }
-
-        .social-links {
-            margin-top: 20px;
-        }
-
-        .social-links a {
-            display: inline-block;
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-            border-radius: 50%;
-            margin: 0 10px;
-            font-size: 1.3rem;
-            transition: all 0.3s;
-            text-decoration: none;
-        }
-
-        .social-links a:hover {
-            background: #00dbde;
-            transform: translateY(-5px);
-        }
-
-        section {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        h2 {
-            color: #00dbde;
-            margin-bottom: 20px;
-            font-size: 2rem;
-            border-bottom: 2px solid rgba(0, 219, 222, 0.3);
-            padding-bottom: 10px;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        .project-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 25px;
-            border-radius: 15px;
-            transition: transform 0.3s, background 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .project-card h3 {
-            color: #fc00ff;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-
-        .project-tags {
-            margin: 15px 0;
-        }
-
-        .project-tags span {
-            display: inline-block;
-            background: rgba(0, 219, 222, 0.2);
-            color: #00dbde;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            margin-right: 8px;
-            margin-bottom: 8px;
-        }
-
-        .btn {
-            display: inline-block;
-            background: linear-gradient(90deg, #00dbde, #fc00ff);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding: 30px;
-            color: #aaa;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
+        .project-card a:hover { color: #00adb5; }
+        
+        .loading { text-align: center; padding: 40px; color: #00adb5; }
+        
+        footer { text-align: center; padding: 30px; background: #1a1a2e; color: #888; margin-top: 60px; border-top: 1px solid #00adb5; }
+        
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
+            header h1 { font-size: 2rem; }
+            .projects { grid-template-columns: 1fr; }
+            .stats { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-gamepad"></i> Escapeesctr</h1>
-            <p class="tagline">C++ Game Developer & Unreal Engine Enthusiast</p>
-            <div>
-                <span class="badge">2 days • 7 projects</span>
-                <span class="badge">Learning Unreal Engine & SFML</span>
-            </div>
-            <div class="social-links">
-                <a href="https://github.com/escapeesctr" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fas fa-envelope"></i></a>
-            </div>
-        </header>
-
-        <section id="about">
-            <h2><i class="fas fa-code"></i> About My Journey</h2>
-            <p>In just 2 days, I've built 7 complete C++ projects, from basic console applications to Unreal Engine 5 integration. My focus is on game development and algorithm implementation. Passionate about creating interactive experiences and solving complex problems through code.</p>
-        </section>
-
-        <section id="projects">
-            <h2><i class="fas fa-project-diagram"></i> My Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <h3>Unreal Engine 5 C++ Project</h3>
-                    <p>Custom actor with movement and rotation in UE5. Demonstrates C++/Blueprint integration.</p>
-                    <div class="project-tags">
-                        <span>C++</span>
-                        <span>Unreal Engine 5</span>
-                        <span>Game Development</span>
-                    </div>
-                    <a href="#" class="btn">View on GitHub →</a>
+    <header>
+        <div class="container">
+            <h1>3D Artist & C++ Game Developer</h1>
+            <p>Bridging the gap between art and code</p>
+            <p>3 days • <span id="repo-count">Loading...</span> projects • Unreal Engine & 3D Integration</p>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number" id="project-count">0</div>
+                    <div class="stat-label">Projects</div>
                 </div>
-
-                <div class="project-card">
-                    <h3>Simple Pathfinding</h3>
-                    <p>Beginner-friendly pathfinding implementation with grid visualization.</p>
-                    <div class="project-tags">
-                        <span>C++</span>
-                        <span>Algorithms</span>
-                    </div>
-                    <a href="#" class="btn">View on GitHub →</a>
+                <div class="stat-box">
+                    <div class="stat-number" id="total-stars">0</div>
+                    <div class="stat-label">Total Stars</div>
                 </div>
-
-                <div class="project-card">
-                    <h3>Pong Game with SFML</h3>
-                    <p>Classic Pong game with two-player controls, ball physics, and collision detection.</p>
-                    <div class="project-tags">
-                        <span>C++</span>
-                        <span>SFML</span>
-                        <span>2D Game</span>
-                    </div>
-                    <a href="#" class="btn">View on GitHub →</a>
-                </div>
-
-                <div class="project-card">
-                    <h3>A* Pathfinding Algorithm</h3>
-                    <p>Implementation of A* pathfinding with visualization and obstacle avoidance.</p>
-                    <div class="project-tags">
-                        <span>C++</span>
-                        <span>Algorithms</span>
-                    </div>
-                    <a href="#" class="btn">View on GitHub →</a>
+                <div class="stat-box">
+                    <div class="stat-number" id="total-forks">0</div>
+                    <div class="stat-label">Total Forks</div>
                 </div>
             </div>
-        </section>
-
-        <section id="skills">
-            <h2><i class="fas fa-tools"></i> Skills & Technologies</h2>
-            <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px;">
-                <div style="background: rgba(0, 219, 222, 0.2); padding: 15px; border-radius: 10px; flex: 1; min-width: 200px;">
-                    <h3 style="color: #00dbde; margin-bottom: 10px;"><i class="fas fa-cogs"></i> Core Languages</h3>
-                    <p>C++, C, HTML/CSS, JavaScript</p>
-                </div>
-                <div style="background: rgba(252, 0, 255, 0.2); padding: 15px; border-radius: 10px; flex: 1; min-width: 200px;">
-                    <h3 style="color: #fc00ff; margin-bottom: 10px;"><i class="fas fa-gamepad"></i> Game Engines</h3>
-                    <p>Unreal Engine 5, SFML</p>
-                </div>
-                <div style="background: rgba(255, 193, 7, 0.2); padding: 15px; border-radius: 10px; flex: 1; min-width: 200px;">
-                    <h3 style="color: #ffc107; margin-bottom: 10px;"><i class="fas fa-brain"></i> Concepts</h3>
-                    <p>Algorithms, OOP, Game Physics, AI Pathfinding</p>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-            <p>© 2024 Escapeesctr - C++ Game Developer Portfolio</p>
-            <p>Hosted on GitHub Pages | Made with <i class="fas fa-heart" style="color: #ff4757;"></i> and code</p>
-            <p style="margin-top: 15px; font-size: 0.9rem;">
-                <a href="https://github.com/escapeesctr/my-portfolio" style="color: #00dbde; text-decoration: none;">
-                    <i class="fab fa-github"></i> View Source Code
-                </a>
+            <p style="margin-top: 20px;">
+                <a href="https://github.com/escapeesctr" style="color: #00adb5; text-decoration: none; margin: 0 15px;">GitHub</a> • 
+                <a href="https://linkedin.com/in/yourprofile" style="color: #00adb5; text-decoration: none; margin: 0 15px;">LinkedIn</a> •
+                <a href="https://escapeesctr.github.io" style="color: #00adb5; text-decoration: none; margin: 0 15px;">GitHub Profile</a>
             </p>
-        </footer>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="about">
+            <h2 style="color: #00adb5; margin-bottom: 20px;">About My Journey</h2>
+            <p style="font-size: 1.1rem; line-height: 1.8;">
+                In just 3 days, I've built multiple C++ projects from basic console applications to 3D model processing and Unreal Engine integration. 
+                I combine professional 3D art skills with technical programming to create complete game experiences.
+            </p>
+            <p style="margin-top: 15px; font-size: 1.1rem;">
+                <strong style="color: #ff2e63;">Unique Value:</strong> I bridge the gap between art and code - creating both 3D assets and the systems that bring them to life.
+            </p>
+        </section>
+
+        <section class="projects-section">
+            <h2 style="color: #00adb5; margin: 40px 0 20px 0;">Projects (Automatically from GitHub)</h2>
+            <div id="projects-container" class="projects">
+                <div class="loading">Loading projects from GitHub API...</div>
+            </div>
+        </section>
+
+        <section class="skills">
+            <h2 style="color: #00adb5; margin: 40px 0 20px 0;">Technical Skills</h2>
+            <div class="tags">
+                <span class="tag">C++</span>
+                <span class="tag">Unreal Engine 5</span>
+                <span class="tag">SFML</span>
+                <span class="tag">3D Modeling</span>
+                <span class="tag">Git & GitHub</span>
+                <span class="tag">Algorithms</span>
+                <span class="tag">Game Development</span>
+                <span class="tag">Object-Oriented Programming</span>
+                <span class="tag">JavaScript/API</span>
+            </div>
+        </section>
     </div>
 
+    <footer>
+        <div class="container">
+            <p>Portfolio automatically updates from GitHub • Updated in real-time</p>
+            <p>Contact: [Your Email] • Learning and building every day</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                This site uses GitHub API to dynamically display my projects
+            </p>
+        </div>
+    </footer>
+
     <script>
-        // Simple animation for project cards
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.project-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    card.style.transition = 'opacity 0.5s, transform 0.5s';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 100);
+        // GitHub API Configuration
+        const USERNAME = 'escapeesctr';
+        const API_URL = `https://api.github.com/users/${USERNAME}/repos`;
+        
+        // DOM Elements
+        const projectsContainer = document.getElementById('projects-container');
+        const projectCount = document.getElementById('project-count');
+        const repoCount = document.getElementById('repo-count');
+        const totalStars = document.getElementById('total-stars');
+        const totalForks = document.getElementById('total-forks');
+        
+        // Skill mapping for tags
+        const skillKeywords = {
+            'cpp': 'C++',
+            'c++': 'C++',
+            'unreal': 'Unreal Engine',
+            'ue5': 'Unreal Engine 5',
+            'sfml': 'SFML',
+            'game': 'Game Development',
+            '3d': '3D Processing',
+            'obj': '3D Processing',
+            'algorithm': 'Algorithms',
+            'pathfinding': 'Algorithms',
+            'oop': 'OOP',
+            'zoo': 'OOP',
+            'todo': 'File I/O',
+            'calculator': 'Console App',
+            'pong': '2D Game'
+        };
+        
+        // Extract skills from repo data
+        function extractSkills(repo) {
+            const skills = new Set();
+            const text = (repo.name + ' ' + repo.description + ' ' + repo.topics.join(' ')).toLowerCase();
+            
+            for (const [keyword, skill] of Object.entries(skillKeywords)) {
+                if (text.includes(keyword)) {
+                    skills.add(skill);
+                }
+            }
+            
+            // Default skills if none detected
+            if (skills.size === 0) {
+                skills.add('C++');
+                skills.add('GitHub');
+            }
+            
+            return Array.from(skills);
+        }
+        
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
             });
-        });
+        }
+        
+        // Create project card HTML
+        function createProjectCard(repo) {
+            const skills = extractSkills(repo);
+            
+            return `
+                <div class="project-card">
+                    <h3>${repo.name.replace(/-/g, ' ').replace(/cpp/g, 'C++').toUpperCase()}</h3>
+                    <p>${repo.description || 'A C++ project demonstrating programming skills.'}</p>
+                    
+                    <div class="tags">
+                        ${skills.map(skill => `<span class="tag">${skill}</span>`).join('')}
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 0.9rem; color: #888;">
+                        <span>⭐ ${repo.stargazers_count}</span>
+                        <span>📅 ${formatDate(repo.updated_at)}</span>
+                    </div>
+                    
+                    <a href="${repo.html_url}" target="_blank">View on GitHub →</a>
+                </div>
+            `;
+        }
+        
+        // Fetch and display projects
+        async function loadProjects() {
+            try {
+                const response = await fetch(API_URL);
+                const repos = await response.json();
+                
+                // Sort by update date (newest first)
+                repos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                
+                // Update statistics
+                projectCount.textContent = repos.length;
+                repoCount.textContent = repos.length;
+                
+                const stars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+                const forks = repos.reduce((sum, repo) => sum + repo.forks_count, 0);
+                
+                totalStars.textContent = stars;
+                totalForks.textContent = forks;
+                
+                // Clear loading message
+                projectsContainer.innerHTML = '';
+                
+                // Add project cards
+                repos.forEach(repo => {
+                    if (!repo.fork) { // Skip forked repositories
+                        projectsContainer.innerHTML += createProjectCard(repo);
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                projectsContainer.innerHTML = `
+                    <div class="project-card">
+                        <h3>⚠️ API Error</h3>
+                        <p>Could not load projects from GitHub. Please check the console for details.</p>
+                        <p>Manual projects will be displayed instead.</p>
+                        <a href="https://github.com/escapeesctr" target="_blank">Visit GitHub →</a>
+                    </div>
+                `;
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadProjects);
     </script>
 </body>
 </html>
